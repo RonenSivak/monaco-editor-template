@@ -1,8 +1,8 @@
 /* @flow */
 
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
-import { SimpleEditorModelResolverService } from 'monaco-editor/esm/vs/editor/standalone/browser/simpleServices';
-import { StaticServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
+import {SimpleEditorModelResolverService} from 'monaco-editor/esm/vs/editor/standalone/browser/simpleServices';
+import {StaticServices} from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
 import * as React from 'react';
 import debounce from 'lodash/debounce';
 import TypingsWorker from './workers/typings.worker';
@@ -15,7 +15,7 @@ import './Editor.css';
  * Monkeypatch to make 'Find All References' work across multiple files
  * https://github.com/Microsoft/monaco-editor/issues/779#issuecomment-374258435
  */
-SimpleEditorModelResolverService.prototype.findModel = function(
+SimpleEditorModelResolverService.prototype.findModel = function (
   editor,
   resource
 ) {
@@ -167,24 +167,32 @@ export default class Editor extends React.Component<Props> {
     this.removePath(oldPath);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Intialize the linter
     this._linterWorker = new ESLintWorker();
-    this._linterWorker.addEventListener('message', ({ data }: any) =>
+    this._linterWorker.addEventListener('message', ({data}: any) =>
       this._updateMarkers(data)
     );
 
     // Intialize the type definitions worker
     this._typingsWorker = new TypingsWorker();
-    this._typingsWorker.addEventListener('message', ({ data }: any) =>
-      this._addTypings(data)
+    this._typingsWorker.addEventListener('message', ({data}: any) => {
+        console.log('response:', data)
+        return this._addTypings(data)
+      }
     );
 
+    const sdkLatestVersion = await fetch(`https://registry.npmjs.org/@wix/sdk/latest`).then((data) => data.json()).then((data) => data.version);
+    const blogLatestVersion = await fetch(`https://registry.npmjs.org/@wix/blog/latest`).then((data) => data.json()).then((data) => data.version);
+    const eventsLatestVersion = await fetch(`https://registry.npmjs.org/@wix/events/latest`).then((data) => data.json()).then((data) => data.version);
     // Fetch some definitions
     const dependencies = {
       expo: '29.0.0',
       react: '16.3.1',
       'react-native': '0.55.4',
+      '@wix/sdk': sdkLatestVersion,
+      '@wix/blog': blogLatestVersion,
+      '@wix/events': eventsLatestVersion,
     };
 
     Object.keys(dependencies).forEach(name =>
@@ -194,11 +202,11 @@ export default class Editor extends React.Component<Props> {
       })
     );
 
-    const { path, value, ...rest } = this.props;
+    const {path, value, ...rest} = this.props;
 
     this._editor = monaco.editor.create(this._node, rest, {
       codeEditorService: Object.assign(Object.create(codeEditorService), {
-        openCodeEditor: async ({ resource, options }, editor) => {
+        openCodeEditor: async ({resource, options}, editor) => {
           // Open the file with this path
           // This should set the model with the path and value
           this.props.onOpenPath(resource.path);
@@ -225,7 +233,7 @@ export default class Editor extends React.Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { path, value, ...rest } = this.props;
+    const {path, value, ...rest} = this.props;
 
     this._editor.updateOptions(rest);
 
@@ -252,14 +260,14 @@ export default class Editor extends React.Component<Props> {
 
   componentWillUnmount() {
     this._linterWorker && this._linterWorker.terminate();
-    this._typingsWorker && this._typingsWorker.termnate();
+    this._typingsWorker && this._typingsWorker.terminate();
     this._subscription && this._subscription.dispose();
     this._editor && this._editor.dispose();
     this._phantom &&
-      this._phantom.contentWindow.removeEventListener(
-        'resize',
-        this._handleResize
-      );
+    this._phantom.contentWindow.removeEventListener(
+      'resize',
+      this._handleResize
+    );
   }
 
   clearSelection() {
@@ -297,7 +305,7 @@ export default class Editor extends React.Component<Props> {
       model = monaco.editor.createModel(
         value,
         'javascript',
-        new monaco.Uri().with({ path })
+        new monaco.Uri().with({path})
       );
       model.updateOptions({
         tabSize: 2,
@@ -345,7 +353,7 @@ export default class Editor extends React.Component<Props> {
     });
   };
 
-  _addTypings = ({ typings }) => {
+  _addTypings = ({typings}) => {
     Object.keys(typings).forEach(path => {
       let extraLib = extraLibs.get(path);
 
@@ -359,7 +367,7 @@ export default class Editor extends React.Component<Props> {
     });
   };
 
-  _updateMarkers = ({ markers, version }: any) => {
+  _updateMarkers = ({markers, version}: any) => {
     requestAnimationFrame(() => {
       const model = this._editor.getModel();
 
@@ -407,7 +415,7 @@ export default class Editor extends React.Component<Props> {
         />
         <div
           ref={c => (this._node = c)}
-          style={{ display: 'flex', flex: 1, overflow: 'hidden' }}
+          style={{display: 'flex', flex: 1, overflow: 'hidden'}}
           className={this.props.theme}
         />
       </div>
