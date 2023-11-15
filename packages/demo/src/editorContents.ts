@@ -13,3 +13,4 @@ fetch(1337) // Shouldn't be a number!
 React.useEffect('I\`m not a function!')
 React.useState<number>('Not a number :s')
 new LocalStorageCache().getFile() // Argument missing!`;
+
