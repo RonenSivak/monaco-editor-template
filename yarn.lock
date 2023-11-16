@@ -139,6 +139,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-free@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "@fortawesome/fontawesome-free@npm:6.4.2::__archiveUrl=https%3A%2F%2Frepo.dev.wixpress.com%2Fartifactory%2Fapi%2Fnpm%2Fnpm-repos%2F%40fortawesome%2Ffontawesome-free%2F-%2Ffontawesome-free-6.4.2.tgz"
+  checksum: 14be8fbb8faa62473c01fe70590e39cdc76a0083b791537fd3d2215a790d2722d917242b1f7948e160876934a8d3823c764af9b8d4ef6dc1ecad55b585e5b776
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2::__archiveUrl=https%3A%2F%2Frepo.dev.wixpress.com%2Fartifactory%2Fapi%2Fnpm%2Fnpm-repos%2F%40isaacs%2Fcliui%2F-%2Fcliui-8.0.2.tgz"
@@ -7662,6 +7669,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monaco-editor-auto-typings-demo@workspace:packages/demo"
   dependencies:
+    "@fortawesome/fontawesome-free": ^6.4.2
     "@monaco-editor/react": ^4.6.0
     "@types/node": ^17.0.21
     "@types/react": ^18.2.37
@@ -7700,6 +7708,7 @@ __metadata:
     lerna: ^3.22.1
     prettier: ^2.2.1
     react-dom: ^18.2.0
+    react-spinners: ^0.13.8
   languageName: unknown
   linkType: soft
 
@@ -9082,6 +9091,16 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
+"react-spinners@npm:^0.13.8":
+  version: 0.13.8
+  resolution: "react-spinners@npm:0.13.8::__archiveUrl=https%3A%2F%2Frepo.dev.wixpress.com%2Fartifactory%2Fapi%2Fnpm%2Fnpm-repos%2Freact-spinners%2F-%2Freact-spinners-0.13.8.tgz"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: cb58f916bbf00c4f7fc33c1a75a8c0f91a98a42af26944340a0e29e4b3a97937a03f0292bc444eb5f5f0bea099344b580f9c04a81524246dadbf0571bdb57e62
   languageName: node
   linkType: hard
 

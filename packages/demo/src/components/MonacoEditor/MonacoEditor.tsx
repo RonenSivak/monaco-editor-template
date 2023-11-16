@@ -7,48 +7,71 @@ import {ServerStorageCache} from "../../ServerStorageCache";
 
 const MonacoEditor = () => {
     const editorRef = useRef<HTMLDivElement | null>(null);
-
+    const [editor, setEditor] = React.useState<monaco.editor.IStandaloneCodeEditor | null>(null);
     useEffect(() => {
+        const uri = monaco.Uri.parse("inmemory://model/");
         const model = monaco.editor.createModel(
             editorContents,
-            "typescript" /*Uri.parse('file://root/index.ts')*/
+            "typescript",
         );
 
         const editor = monaco.editor.create(editorRef.current!, {
             model: model,
             language: "javascript",
             automaticLayout: true,
-            suggest: {
-                insertMode: 'insert', // or 'replace'
+            theme: 'vs',
 
-                // Enable graceful matching
-                filterGraceful: true,
+            // General appearance
+            fontFamily: 'Menlo, Monaco, "Courier New", monospace',
+            fontSize: 14,
+            fontWeight: 'normal',
+            lineHeight: 20,
+            letterSpacing: 0.5,
 
-                // Prevent quick suggestions when a snippet is active
-                snippetsPreventQuickSuggestions: true,
+            // Cursor
+            cursorBlinking: 'blink',
+            cursorStyle: 'line',
+            cursorWidth: 2,
 
-                // Favors words that appear close to the cursor
-                localityBonus: true,
-
-                // Enable using global storage for remembering suggestions
-                shareSuggestSelections: true,
-
-                // Enable or disable icons in suggestions
-                showIcons: true,
-
-                // Enable or disable the suggest status bar
-                showStatusBar: true,
-
-                // Enable or disable the rendering of the suggestion preview
-                preview: true,
-
-                // Configure the mode of the preview
-                previewMode: 'subwordSmart',
-
-                // Show details inline with the label
-                showInlineDetails: true,
+            // Scrollbar
+            scrollbar: {
+                vertical: 'visible',
+                horizontal: 'visible',
+                useShadows: true,
+                verticalHasArrows: false,
+                horizontalHasArrows: false,
+                alwaysConsumeMouseWheel: false,
             },
+
+            // Line numbers
+            lineNumbers: 'on',
+            lineNumbersMinChars: 3,
+
+            // Decorations
+            glyphMargin: true,
+            lineDecorationsWidth: 10,
+
+            // Word wrap
+            wordWrap: 'on',
+            wordWrapColumn: 80,
+
+            // Other settings
+            readOnly: false,
+            showFoldingControls: 'always',
+            minimap: {
+                enabled: true,
+                renderCharacters: false,
+                showSlider: 'mouseover',
+                side: 'right',
+            },
+            quickSuggestions: true,
+            suggestFontSize: 14,
+            suggestLineHeight: 20,
+            suggestOnTriggerCharacters: true,
+            useTabStops: true,
+            tabCompletion: 'on',
         });
+        setEditor(editor);
         editor.setModel(model);
 
         const cache = new ServerStorageCache();

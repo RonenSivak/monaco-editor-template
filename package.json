@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@wix/sdk": "^1.5.7",
-    "circular-dependency-plugin": "^5.2.2"
+    "circular-dependency-plugin": "^5.2.2",
+    "react-spinners": "^0.13.8"
   }
 }
