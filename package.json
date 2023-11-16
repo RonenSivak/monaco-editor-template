@@ -24,7 +24,8 @@
     "@types/circular-dependency-plugin": "^5.0.8",
     "copy": "^0.3.2",
     "lerna": "^3.22.1",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "react-dom": "^18.2.0"
   },
   "workspaces": [
     "packages/*"

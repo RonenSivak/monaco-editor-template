@@ -1,16 +1,20 @@
-export const editorContents = `import fetch from 'node-fetch'
-import React from 'react'
-import { LocalStorageCache } from 'monaco-editor-auto-typings'
+export const editorContents = `
+import { createClient, OAuthStrategy } from '@wix/sdk';
+import { products } from '@wix/stores';
 
-// Works fine
-fetch('https://google.com', { method: 'GET' })
-React.useEffect(() => {})
-React.useState<string>('Hello')
-new LocalStorageCache().getFile('FILE_ID')
+const myWixClient = createClient({
+    modules: { products },
+    auth: OAuthStrategy({ clientId: '433368fd-cf11-41ff-b82f-239d92c15bed' }),
+});
 
-// Type errors are detected! :)
-fetch(1337) // Shouldn't be a number!
-React.useEffect('I\`m not a function!')
-React.useState<number>('Not a number :s')
-new LocalStorageCache().getFile() // Argument missing!`;
-
+const printProducts = async () => {
+    const productList = await myWixClient.products.queryProducts().find();
+    console.log('My Products:');
+    console.log('Total: ', productList.items.length);
+    console.log(
+        productList.items
+            .map((item) => item.name)
+            .join('\\n')
+    );
+};
+`;
