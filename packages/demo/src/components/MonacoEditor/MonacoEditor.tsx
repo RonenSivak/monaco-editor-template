@@ -19,11 +19,36 @@ const MonacoEditor = () => {
             language: "javascript",
             automaticLayout: true,
             suggest: {
-                insertMode: "insert",
-                // ... (other suggest options)
+                insertMode: 'insert', // or 'replace'
+
+                // Enable graceful matching
+                filterGraceful: true,
+
+                // Prevent quick suggestions when a snippet is active
+                snippetsPreventQuickSuggestions: true,
+
+                // Favors words that appear close to the cursor
+                localityBonus: true,
+
+                // Enable using global storage for remembering suggestions
+                shareSuggestSelections: true,
+
+                // Enable or disable icons in suggestions
+                showIcons: true,
+
+                // Enable or disable the suggest status bar
+                showStatusBar: true,
+
+                // Enable or disable the rendering of the suggestion preview
+                preview: true,
+
+                // Configure the mode of the preview
+                previewMode: 'subwordSmart',
+
+                // Show details inline with the label
+                showInlineDetails: true,
             },
         });
-
         editor.setModel(model);
 
         const cache = new ServerStorageCache();

@@ -1,5 +1,4 @@
-export const editorContents = `
-import { createClient, OAuthStrategy } from '@wix/sdk';
+export const editorContents = `import { createClient, OAuthStrategy } from '@wix/sdk';
 import { products } from '@wix/stores';
 
 const myWixClient = createClient({
