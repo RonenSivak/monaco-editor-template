@@ -1,8 +1,9 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import {AutoTypings, LocalStorageCache} from 'monaco-editor-auto-typings';
+import {AutoTypings} from 'monaco-editor-auto-typings';
 import {editorContents} from './editorContents';
 
 import './style.css';
+import {ServerStorageCache} from "./ServerStorageCache";
 
 const model = monaco.editor.createModel(editorContents, 'typescript' /*Uri.parse('file://root/index.ts')*/);
 
@@ -43,7 +44,8 @@ const editor = monaco.editor.create(document.getElementById('editor-mountpoint')
     },
 });
 editor.setModel(model);
-const cache = new LocalStorageCache();
+
+const cache = new ServerStorageCache();
 
 
 AutoTypings.create(editor, {
@@ -57,7 +59,7 @@ AutoTypings.create(editor, {
         mountPoint.appendChild(log);
         mountPoint.scrollTop = mountPoint.scrollHeight;
     },
-
+    debounceDuration: 400,
     // Log errors to a div console
     onError: e => {
         const mountPoint = document.getElementById('logs-mountpoint')!;
@@ -81,7 +83,10 @@ AutoTypings.create(editor, {
         "@wix/dashboard": "latest",
     },
     preloadPackages: true,
-    // dontAdaptEditorOptions: true,
+    shareCache: true,
+    dontRefreshModelValueAfterResolvement: true,
+    packageRecursionDepth: 0,
+    fileRecursionDepth: 5,
 });
 
 document.getElementById('reset-cache')!.onclick = () => cache.clear();

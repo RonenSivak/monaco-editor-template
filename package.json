@@ -21,6 +21,7 @@
     "prepublish": "yarn build && yarn copy-readme"
   },
   "devDependencies": {
+    "@types/circular-dependency-plugin": "^5.0.8",
     "copy": "^0.3.2",
     "lerna": "^3.22.1",
     "prettier": "^2.2.1"
@@ -33,6 +34,7 @@
     "yarn": "1.22.19"
   },
   "dependencies": {
-    "@wix/sdk": "^1.5.7"
+    "@wix/sdk": "^1.5.7",
+    "circular-dependency-plugin": "^5.2.2"
   }
 }

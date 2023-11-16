@@ -28,6 +28,7 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
+    "circular-dependency-plugin": "^5.2.2",
     "monaco-editor": "^0.34.0",
     "monaco-editor-auto-typings": "^0.4.4"
   }
