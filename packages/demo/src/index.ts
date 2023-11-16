@@ -4,51 +4,51 @@ import {editorContents} from './editorContents';
 
 import './style.css';
 
-const editor = monaco.editor.create(document.getElementById('editor-mountpoint')!, {
-    model: monaco.editor.createModel(editorContents, 'typescript' /*Uri.parse('file://root/index.ts')*/),
-});
+const model = monaco.editor.createModel(editorContents, 'typescript' /*Uri.parse('file://root/index.ts')*/);
 
+const editor = monaco.editor.create(document.getElementById('editor-mountpoint')!, {
+    model: model,
+    language: 'javascript',
+    automaticLayout: true,
+    suggest: {
+        // Autocompletion insert mode
+        insertMode: 'insert', // or 'replace'
+
+        // Enable graceful matching
+        filterGraceful: true,
+
+        // Prevent quick suggestions when a snippet is active
+        snippetsPreventQuickSuggestions: true,
+
+        // Favors words that appear close to the cursor
+        localityBonus: true,
+
+        // Enable using global storage for remembering suggestions
+        shareSuggestSelections: true,
+
+        // Enable or disable icons in suggestions
+        showIcons: true,
+
+        // Enable or disable the suggest status bar
+        showStatusBar: true,
+
+        // Enable or disable the rendering of the suggestion preview
+        preview: true,
+
+        // Configure the mode of the preview
+        previewMode: 'subwordSmart',
+
+        // Show details inline with the label
+        showInlineDetails: true,
+    },
+});
+editor.setModel(model);
 const cache = new LocalStorageCache();
 
 
 AutoTypings.create(editor, {
     // Cache declaration files to local storage
     sourceCache: cache,
-    versions: {
-        "@wix/sdk": "latest",
-        "@wix/sdk-react": "latest",
-        "@wix/dashboard": "latest",
-        "@wix/api-client": "latest", // Deprecated
-        "@wix/activity-counters": "latest",
-        "@wix/auth-management": "latest",
-        "@wix/blog": "latest",
-        "@wix/bookings": "latest",
-        "@wix/business-tools": "latest",
-        "@wix/captcha": "latest",
-        "@wix/comments": "latest",
-        "@wix/crm": "latest",
-        "@wix/data": "latest",
-        "@wix/ecom": "latest",
-        "@wix/email-marketing": "latest",
-        "@wix/events": "latest",
-        "@wix/forms": "latest",
-        "@wix/forum": "latest",
-        "@wix/groups": "latest",
-        "@wix/inbox": "latest",
-        "@wix/loyalty": "latest",
-        "@wix/marketing": "latest",
-        "@wix/marketing-tags": "latest",
-        "@wix/media": "latest",
-        "@wix/members": "latest",
-        "@wix/notifications": "latest",
-        "@wix/pricing-plans": "latest",
-        "@wix/redirects": "latest",
-        "@wix/secrets": "latest",
-        "@wix/stores": "latest",
-        "@wix/table-reservations": "latest",
-        "@wix/workflows": "latest"
-    },
-    preloadPackages: true,
     // Log progress updates to a div console
     onUpdate: (u, t) => {
         const mountPoint = document.getElementById('logs-mountpoint')!;
@@ -74,6 +74,14 @@ AutoTypings.create(editor, {
             .map(v => `<div>${v[0]}: ${v[1]}</div>`)
             .join('');
     },
+
+    versions: {
+        "@wix/sdk": "latest",
+        "@wix/sdk-react": "latest",
+        "@wix/dashboard": "latest",
+    },
+    preloadPackages: true,
+    // dontAdaptEditorOptions: true,
 });
 
 document.getElementById('reset-cache')!.onclick = () => cache.clear();
